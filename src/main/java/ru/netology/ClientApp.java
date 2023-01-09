@@ -20,14 +20,19 @@ public class ClientApp {
 //            System.out.printf("Please enter a word that starts with the last letter of %s\n", serverResponse);
 //            System.out.print(">>");
 //            String s = scanner.nextLine();
+
+
+
+
+
             JSONObject jsonObject1 = new JSONObject();
             jsonObject1.put("title", "булка");
             jsonObject1.put("date", "2022.02.08");
             jsonObject1.put("sum", "200");
 
             out.println(jsonObject1.toJSONString());
-//            String serverResponse2 = in.readLine();
-//            System.out.println(serverResponse2);
+            String serverResponse2 = in.readLine();
+            System.out.println(serverResponse2);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
