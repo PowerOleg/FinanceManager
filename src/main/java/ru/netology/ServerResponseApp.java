@@ -7,6 +7,6 @@ package ru.netology;
  *
  */
 
-public class ServerResponseApp {
-
-}
+//public class ServerResponseApp extends Runnable {
+//
+//}
