@@ -11,6 +11,7 @@
 
 //переписать TSV_Parser без библиотеки.
 
+import ru.netology.ServerLogic;
 import ru.netology.ServerResponseApp;
 import ru.netology.TSV_Parser;
 
@@ -20,11 +21,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        TSV_Parser tsv_parser = new TSV_Parser();
-        List<String[]> categoriesList = tsv_parser.parse(new File("categories.tsv"));
-//        categoriesList.forEach(n -> System.out.println(Arrays.toString(n)));
-
-        Thread thread1 = new Thread(new ServerResponseApp());
+        Thread thread1 = new Thread(new ServerResponseApp(new ServerLogic())); //логику можем положить и другую
         thread1.start();
 
     }

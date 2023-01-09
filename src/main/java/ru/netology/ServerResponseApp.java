@@ -31,6 +31,11 @@ import java.net.Socket;
  */
 
 public class ServerResponseApp implements Runnable {
+    ServerLogic serverLogic;
+
+    public ServerResponseApp(ServerLogic serverLogic) {
+        this.serverLogic = serverLogic;
+    }
 
     @Override
     public void run() {
@@ -41,28 +46,13 @@ public class ServerResponseApp implements Runnable {
                     BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                     PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
                     System.out.println("Клиент подключился");
-                    String clientRequest = in.readLine();
+
+                    String clientRequest = in.readLine();                   //есть смысл создание String выносить из цикла?
                     System.out.println("1 " + clientRequest);
 
-//блок в отдельный метод парсинга
-                    GsonBuilder gsonBuilder = new GsonBuilder();
-                    Gson gson = gsonBuilder.create();
-                    ProductPurchase productPurchase1 = gson.fromJson(clientRequest, ProductPurchase.class);
-                    System.out.println("2 " + productPurchase1);
-//метод подсчета и обработки
-
-//метод отправки response
-                    JSONObject jsonObject1 = new JSONObject();
-                    JSONObject jsonObject2 = new JSONObject();
-
-                    jsonObject1.put("category" , "уда");                            //тут переделать
-                    jsonObject1.put("sum" , "3516431");                                  //тут переделать
-                    jsonObject2.put("maxCategory", jsonObject1);
-                    String response = jsonObject2.toJSONString();
+                    String response = serverLogic.response(clientRequest);
                     out.println(response);
                     System.out.println("3 " + response);
-
-
                 }
             }
         } catch (IOException e) {
