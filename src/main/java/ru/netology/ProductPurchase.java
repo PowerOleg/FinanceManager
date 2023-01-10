@@ -1,6 +1,8 @@
 package ru.netology;
 
+import java.io.File;
 import java.util.Date;
+import java.util.List;
 
 public class ProductPurchase {
     private String title;
@@ -8,7 +10,6 @@ public class ProductPurchase {
     private int sum;
 
     public ProductPurchase() {}
-
     public String getTitle() {
         return title;
     }
