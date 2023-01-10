@@ -6,7 +6,9 @@ import org.json.simple.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 public class ServerLogic {
     private Map<String, String> productsCategoriesMap;
@@ -34,7 +36,8 @@ public class ServerLogic {
 
         if (product.isPresent()) {
             return productsCategoriesMap.get(product.get());
-        }    return "другое";
+        }
+        return "другое";
     }
 
     public String response(String clientRequest) {
