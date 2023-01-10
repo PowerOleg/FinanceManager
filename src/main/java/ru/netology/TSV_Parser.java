@@ -48,16 +48,64 @@ import com.univocity.parsers.tsv.TsvParser;
 import com.univocity.parsers.tsv.TsvParserSettings;
 
 import java.io.File;
-import java.util.List;
+import java.io.FileNotFoundException;
+import java.util.*;
 
 public class TSV_Parser {
-    TsvParserSettings settings = new TsvParserSettings(); // MANY options here
-    TsvParser parser = new TsvParser(settings);
 
-    public List<String[]> parse(File TsvFile) {
-//        List<String[]> allRows =
-               return parser.parseAll(TsvFile); // parses all rows in a list.
+//    TsvParserSettings settings = new TsvParserSettings(); // MANY options here
+//    TsvParser parser = new TsvParser(settings);
+//
+//    public List<String[]> parse(File TsvFile) {
+////        List<String[]> allRows =
+//               return parser.parseAll(TsvFile); // parses all rows in a list.
+//
+//    }
 
+
+
+
+public String[] parse(File tsvFile, int column) throws FileNotFoundException {
+    String[] sArray;
+    StringTokenizer stringTokenizer;
+    int turn = 0;
+
+    int count = 0;
+    try (Scanner scanner = new Scanner(tsvFile)) {
+        while (scanner.hasNext()) {
+            scanner.nextLine();
+            count++;
+        }
+
+
+        try (Scanner scanner1 = new Scanner(tsvFile)) {
+            sArray = new String[count];
+            while (scanner1.hasNext()) {
+                String s = scanner1.nextLine();
+                stringTokenizer = new StringTokenizer(s, "\\t");
+
+
+           switch (column) {
+               case 2: {
+                    stringTokenizer.nextToken();
+                    sArray[turn] = stringTokenizer.nextToken();
+                    turn++;
+                    break;
+               }
+               case 3: {
+                   stringTokenizer.nextToken();
+                   stringTokenizer.nextToken();
+                   sArray[turn] = stringTokenizer.nextToken();
+                   turn++;
+                   break;
+               }
+               default:
+                   System.out.println("Неверный номер колонки");
+                   break;
+           }
+            }
+        }
+        return sArray;
     }
-
+}
 }
