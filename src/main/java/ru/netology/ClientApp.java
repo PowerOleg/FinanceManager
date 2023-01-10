@@ -16,15 +16,6 @@ public class ClientApp {
              BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
              PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true)) {
 
-//            String serverResponse = in.readLine();
-//            System.out.printf("Please enter a word that starts with the last letter of %s\n", serverResponse);
-//            System.out.print(">>");
-//            String s = scanner.nextLine();
-
-
-
-
-
             JSONObject jsonObject1 = new JSONObject();
             jsonObject1.put("title", "булка");
             jsonObject1.put("date", "2022.02.08");

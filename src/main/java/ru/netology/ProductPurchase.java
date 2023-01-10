@@ -1,9 +1,5 @@
 package ru.netology;
 
-import java.io.File;
-import java.util.Date;
-import java.util.List;
-
 public class ProductPurchase {
     private String title;
     private String date;
@@ -13,7 +9,6 @@ public class ProductPurchase {
     public String getTitle() {
         return title;
     }
-
     public String getDate() {
         return date;
     }
