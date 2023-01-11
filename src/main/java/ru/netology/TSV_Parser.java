@@ -1,11 +1,13 @@
 package ru.netology;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
 public class TSV_Parser {
-
     public String[] parse(File tsvFile, int column) throws IOException {
         String[] sArray;
         StringTokenizer stringTokenizer;
@@ -26,8 +28,8 @@ public class TSV_Parser {
 
                     switch (column) {
                         case 2: {
-                    stringTokenizer.nextToken();
-                    sArray[turn] = stringTokenizer.nextToken();;
+                            stringTokenizer.nextToken();
+                            sArray[turn] = stringTokenizer.nextToken();
                             turn++;
                             break;
                         }

@@ -26,7 +26,7 @@ public class ServerLogicTest {
         String[] productArrayTest = {"булка", "колбаса", "сухарики", "курица", "тапки", "шапка", "мыло", "акции"};
         String[] categoriesArrayTest = {"еда", "еда", "еда", "еда", "одежда", "одежда", "быт", "финансы"};
         given(productPurchase.getTitle()).willReturn("булка");
-        serverLogic = new ServerLogicImpl1(productDatabase, productArrayTest, categoriesArrayTest);      
+        serverLogic = new ServerLogicImpl1(productDatabase, productArrayTest, categoriesArrayTest);
 
         String expected = "еда";
         String result = serverLogic.checkProductCategory(productPurchase);
