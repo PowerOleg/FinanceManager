@@ -4,14 +4,17 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.json.simple.JSONObject;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-public class ServerLogic {
-    private String[] products;
-    private String[] categories;
-    private TSV_Parser tsv_parser;
-    private int sum = 0;
+public class ServerLogic implements Saving, Serializable {
+    private transient String[] products;
+    private transient String[] categories;
+    private transient TSV_Parser tsv_parser;
+    private transient int sum = 0;
+    private List<String[]> saves;
 
     public ServerLogic(File file) {
         tsv_parser = new TSV_Parser();
@@ -21,6 +24,7 @@ public class ServerLogic {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        List<String[]> saves = load();                                                      //1 надо сделать load()
     }
 
     public static ProductPurchase getProductPurchase(String clientRequest) throws IOException {
@@ -49,6 +53,7 @@ public class ServerLogic {
     }
 
     public String response(String clientRequest) {
+
 //запись данных от запроса клиента в экземпляр класса productPurchase1
         ProductPurchase productPurchase1 = null;
         try {
@@ -61,8 +66,27 @@ public class ServerLogic {
 //обработка и подготовка данных для вывода
         String category = checkProductCategory(productPurchase1);
         sum += productPurchase1.getSum();
+//сохранение данных
+        saves.forEach(n -> System.out.println(Arrays.deepToString(n)));  //save();       //2 надо сделать save() перед выводом
 //формирование json и отправка
         String response = makeResponse(category, sum);
         return response;
+    }
+
+
+    @Override
+    public void save() {
+
+         try {
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(new File("data.bin")));
+            objectOutputStream.writeObject(this);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<String[]> load() {
+return null;
     }
 }
