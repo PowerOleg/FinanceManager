@@ -63,7 +63,7 @@ public class ServerLogicTest {
         final String result = serverLogic.checkProductCategory(productPurchase);
         Assertions.assertEquals(expected, result);
     }
-    
+
     @ParameterizedTest
     @ValueSource(strings = {"быт"})
     public void testMakeResponsePositive(String argument) {
@@ -73,8 +73,15 @@ public class ServerLogicTest {
         Assertions.assertEquals(expected, result);
     }
 
-
-
-
-
+    @ParameterizedTest
+    @ValueSource(strings = {"{\"title\": \"булка\", \"date\": \"2022.02.08\", \"sum\": 200}",
+            "{\"title\": \"колбаса\", \"date\": \"2022.02.08\", \"sum\": 200}"})
+    public void testResponsePositive(String argument) {
+        final String[] productArrayTest = {"булка", "колбаса", "сухарики", "курица", "тапки", "шапка", "мыло", "акции"};
+        final String[] categoriesArrayTest = {"еда", "еда", "еда", "еда", "одежда", "одежда", "быт", "финансы"};
+        serverLogic = new ServerLogicImpl1(productDatabase, productArrayTest, categoriesArrayTest);
+        final String expected = "{\"maxCategory\":{\"sum\":200,\"category\":\"еда\"}}";
+        final String result = serverLogic.response(argument);
+        Assertions.assertEquals(expected, result);
+    }
 }
