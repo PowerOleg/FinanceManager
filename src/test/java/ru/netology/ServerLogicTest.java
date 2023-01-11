@@ -40,13 +40,13 @@ public class ServerLogicTest {
     @ParameterizedTest
     @ValueSource(strings = {"булка", "курица"})
     public void testCheckProductCategoryFoodPositive(String argument) throws IOException {
-        String[] productArrayTest = {"булка", "колбаса", "сухарики", "курица", "тапки", "шапка", "мыло", "акции"};
-        String[] categoriesArrayTest = {"еда", "еда", "еда", "еда", "одежда", "одежда", "быт", "финансы"};
+        final String[] productArrayTest = {"булка", "колбаса", "сухарики", "курица", "тапки", "шапка", "мыло", "акции"};
+        final String[] categoriesArrayTest = {"еда", "еда", "еда", "еда", "одежда", "одежда", "быт", "финансы"};
         given(productPurchase.getTitle()).willReturn(argument);
         serverLogic = new ServerLogicImpl1(productDatabase, productArrayTest, categoriesArrayTest);
 
-        String expected = "еда";
-        String result = serverLogic.checkProductCategory(productPurchase);
+        final String expected = "еда";
+        final String result = serverLogic.checkProductCategory(productPurchase);
         System.out.println(result);
         Assertions.assertEquals(expected, result);
     }
@@ -54,13 +54,27 @@ public class ServerLogicTest {
     @ParameterizedTest
     @ValueSource(strings = {"Asdad", "втулки"})
     public void testCheckProductCategoryOtherPositive(String argument) {
-        String[] productArrayTest = {"булка", "колбаса", "сухарики", "курица", "тапки", "шапка", "мыло", "акции"};
-        String[] categoriesArrayTest = {"еда", "еда", "еда", "еда", "одежда", "одежда", "быт", "финансы"};
+        final String[] productArrayTest = {"булка", "колбаса", "сухарики", "курица", "тапки", "шапка", "мыло", "акции"};
+        final String[] categoriesArrayTest = {"еда", "еда", "еда", "еда", "одежда", "одежда", "быт", "финансы"};
         given(productPurchase.getTitle()).willReturn(argument);
         serverLogic = new ServerLogicImpl1(productDatabase, productArrayTest, categoriesArrayTest);
 
-        String expected = "другое";
-        String result = serverLogic.checkProductCategory(productPurchase);
+        final String expected = "другое";
+        final String result = serverLogic.checkProductCategory(productPurchase);
         Assertions.assertEquals(expected, result);
     }
+    
+    @ParameterizedTest
+    @ValueSource(strings = {"быт"})
+    public void testMakeResponsePositive(String argument) {
+        serverLogic = new ServerLogic(productDatabase);
+        final String expected = "{\"maxCategory\":{\"sum\":200,\"category\":\"быт\"}}";
+        final String result = serverLogic.makeResponse(argument, 200);
+        Assertions.assertEquals(expected, result);
+    }
+
+
+
+
+
 }
