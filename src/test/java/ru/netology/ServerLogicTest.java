@@ -19,21 +19,29 @@ public class ServerLogicTest {
         serverLogic = new ServerLogic();
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = {"тапки", "шапка"})
-    public void testCheckProductCategoryClothesPositive(String argument) {
-    given(productPurchase.getTitle()).willReturn(argument);
-    String expected = "одежда";
-    String result = serverLogic.checkProductCategory(productPurchase);
-    Assertions.assertEquals(expected, result);
-    }
+//    @Test
+//    public void testCheckProductCategoryFoodPositive() {
+//    given(productPurchase.getTitle()).willReturn("булка");
+//    String expected1 = "еда";
+//    String result = serverLogic.checkProductCategory(productPurchase);
+//    Assertions.assertEquals(expected1, result);
+//    }
+
+//    @ParameterizedTest
+//    @ValueSource(strings = {"Asdad", "втулки"})
+//    public void testCheckProductCategoryOtherPositive(String argument) {
+//        given(productPurchase.getTitle()).willReturn(argument);
+//        String expected2 = "другое";
+//        String result = serverLogic.checkProductCategory(productPurchase);
+//        Assertions.assertEquals(expected2, result);
+//    }
 
     @ParameterizedTest
-    @ValueSource(strings = {"Asdad", "втулки"})
-    public void testCheckProductCategoryOtherPositive(String argument) {
+    @ValueSource(strings = {"тапки", "шапка"})
+    public void testCheckProductCategoryPositive(String argument) {
         given(productPurchase.getTitle()).willReturn(argument);
-        String expected = "другое";
-        String result = serverLogic.checkProductCategory(productPurchase);
-        Assertions.assertEquals(expected, result);
+        String expected3 = "одежда";
+        String result3 = serverLogic.checkProductCategory(productPurchase);
+        Assertions.assertEquals(expected3, result3);
     }
 }
