@@ -6,6 +6,7 @@ import org.json.simple.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,10 +14,13 @@ import java.util.Optional;
 
 public class ServerLogic {
 //    private Map<String, String> productsCategoriesMap;
+    //нужны они тут?
+    private String[] products;
+    private String[] categories;
     private TSV_Parser tsv_parser;
     private int sum = 0;
 
-    public ServerLogic() {
+    public ServerLogic(File file) {
         tsv_parser = new TSV_Parser();
 //        productsCategoriesMap = new HashMap<>();
 //        File file = new File("categories.tsv");
@@ -29,24 +33,26 @@ public class ServerLogic {
 //        } catch (FileNotFoundException e) {
 //            throw new RuntimeException(e);
 //        }
-    }
 
-    public String checkProductCategory(ProductPurchase productPurchase, File file) {
-        String result = "другое";
+
         try {
-            String[] products = tsv_parser.parse(file, 2);
-            String[] categories = tsv_parser.parse(file, 3);
-
-            System.out.println(Arrays.toString(products));                                           //d
-            System.out.println(Arrays.toString(categories));                                           //d
-            for (int i = 0; i < products.length; i++) {
-                if (productPurchase.getTitle().equalsIgnoreCase(products[i])) {
-                    result = categories[i];
-                }
-            }
-        } catch (FileNotFoundException e) {
+            products = tsv_parser.parse(file, 2);
+            categories = tsv_parser.parse(file, 3);
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public String checkProductCategory(ProductPurchase productPurchase) {
+        String result = "другое";
+            for (int i = 0; i < products.length; i++) {
+                if (productPurchase.getTitle().equalsIgnoreCase(products[i])) {
+                    System.out.println("тут");
+                    result = categories[i];
+                }
+                System.out.println("не тут");
+            }
+
 
 
 //        System.out.println(productPurchase.getTitle());                                             //d
@@ -65,13 +71,13 @@ public class ServerLogic {
     }
 
     public String response(String clientRequest) {
-        File productDatabase = new File("categories.tsv");
+
 //запись данных от клиента в экземпляр класса productPurchase1
         GsonBuilder gsonBuilder = new GsonBuilder();
         Gson gson = gsonBuilder.create();
         ProductPurchase productPurchase1 = gson.fromJson(clientRequest, ProductPurchase.class);
 //обработка и подготовка данных для вывода
-        String category = checkProductCategory(productPurchase1, productDatabase);
+        String category = checkProductCategory(productPurchase1);
         sum += productPurchase1.getSum();
 //формирование json и отправка
         JSONObject jsonObject1 = new JSONObject();
