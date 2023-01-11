@@ -2,11 +2,11 @@ package ru.netology;
 
 import java.io.File;
 
-public class ServerLogicMock extends ServerLogic {
+public class ServerLogicImpl1 extends ServerLogic {
     String[] productsTest;
     String[] categoriesTest;
 
-    public ServerLogicMock(File file, String[] products, String[] categories) {
+    public ServerLogicImpl1(File file, String[] products, String[] categories) {
         super(file);
         productsTest = products;
         categoriesTest = categories;

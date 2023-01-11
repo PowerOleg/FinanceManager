@@ -43,6 +43,13 @@ public class ServerLogic {
         }
     }
 
+    public static ProductPurchase getProductPurchase(String clientRequest) throws IOException {
+        ProductPurchase productPurchase;
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        Gson gson = gsonBuilder.create();
+        return gson.fromJson(clientRequest, ProductPurchase.class);
+    }
+
     public String checkProductCategory(ProductPurchase productPurchase) {
         String result = "другое";
             for (int i = 0; i < products.length; i++) {
@@ -70,12 +77,18 @@ public class ServerLogic {
         return result;
     }
 
-    public String response(String clientRequest) {
 
+
+
+    public String response(String clientRequest) {
 //запись данных от клиента в экземпляр класса productPurchase1
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        Gson gson = gsonBuilder.create();
-        ProductPurchase productPurchase1 = gson.fromJson(clientRequest, ProductPurchase.class);
+        ProductPurchase productPurchase1 = null;
+        try {
+            productPurchase1 = getProductPurchase(clientRequest);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
 //обработка и подготовка данных для вывода
         String category = checkProductCategory(productPurchase1);
         sum += productPurchase1.getSum();
