@@ -7,10 +7,10 @@ import org.json.simple.JSONObject;
 import java.io.*;
 
 public class ServerLogic implements Serializable {
-    protected String[] products;
-    protected String[] categories;
-    protected TSV_Parser tsv_parser;
-    protected int sum = 0;
+    protected transient String[] products;
+    protected transient String[] categories;
+    protected transient TSV_Parser tsv_parser;
+    protected transient int sum = 0;
 
     public ServerLogic(File file) {
         tsv_parser = new TSV_Parser();

@@ -3,21 +3,26 @@ package ru.netology;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
-public class ServerLogicWithSaving extends ServerLogic implements Saving {
+public class ServerLogicWithSaving extends ServerLogic implements Saving, Serializable {
     protected ServerLogic serverLogic;
     protected List<String[]> saves;
 
     public ServerLogicWithSaving(File file, ServerLogic serverLogic) {
         super(file);
         this.serverLogic = serverLogic;
+        saves = new ArrayList<>();                                                      //d
 //        this.saves = load();
     }
 
 //сохранение данных
 //        saves.forEach(n -> System.out.println(Arrays.deepToString(n)));  //save();       //2 надо сделать save() перед выводом
 
+    public void add(String[] save) {                                    //d
+        saves.add(save);
+    }
 
 
     @Override
