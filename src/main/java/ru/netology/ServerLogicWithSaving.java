@@ -24,7 +24,7 @@ public class ServerLogicWithSaving extends ServerLogic implements Saving, Serial
 //[0] это номер строчки
         int id = 0;
         for (String[] s : saves) {
-            if (Integer.parseInt(s[0]) > id) id = Integer.parseInt(s[0]);
+            if (Integer.parseInt(s[0]) > id) id = Integer.parseInt(s[0]+1);
         }
 //[1] это наименование товара
         String product = productPurchase.getTitle();
