@@ -47,7 +47,7 @@ public class ServerLogic implements Serializable {
         return jsonObjectTopLevel.toJSONString();
     }
 
-    public String response(String clientRequest) {
+    public String response(String clientRequest) throws IOException {
 //запись данных запроса клиента в экземпляр класса productPurchase1
         ProductPurchase productPurchase1 = null;
         try {

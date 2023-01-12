@@ -3,29 +3,48 @@ package ru.netology;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ServerLogicWithSaving extends ServerLogic implements Saving, Serializable {
     protected ServerLogic serverLogic;
     protected List<String[]> saves;
     private static final long serialVersionUID = 1L;
-//            6529685098267757690L;                      //d
+
 
     public ServerLogicWithSaving(File file, ServerLogic serverLogic) {
         super(file);
         this.serverLogic = serverLogic;
-        saves = new ArrayList<>();                                                      //d
-//        this.saves = load();
+        this.saves = ServerLogicWithSaving.load().getSaves();
+    }
+    //добавляется подготовка данных и запись данных
+    @Override
+    public String response(String clientRequest) throws IOException {
+        String response = serverLogic.response(clientRequest);
+        ProductPurchase productPurchase = getProductPurchase(clientRequest);
+//[0] это номер строчки
+        int id = 0;
+        for (String[] s : saves) {
+            if (Integer.parseInt(s[0]) > id) id = Integer.parseInt(s[0]);
+        }
+//[1] это наименование товара
+        String product = productPurchase.getTitle();
+//[2] это наименование категории
+        String category = checkProductCategory(productPurchase);
+//[3] это дата
+        String date = productPurchase.getDate();
+//[4] это сумма
+        String sum = String.valueOf(productPurchase.getSum());
+
+        String[] save = {String.valueOf(id), product, category, date, sum};
+        this.addSave(save);
+        this.save();
+        return response;
     }
 
-//сохранение данных
-//        saves.forEach(n -> System.out.println(Arrays.deepToString(n)));  //save();       //2 надо сделать save() перед выводом
 
-    public void add(String[] save) {                                    //d
+    public void addSave(String[] save) {
         saves.add(save);
     }
-
     @Override
     public void save() {
         try {
@@ -35,7 +54,6 @@ public class ServerLogicWithSaving extends ServerLogic implements Saving, Serial
             throw new RuntimeException(e);
         }
     }
-
 
     public static ServerLogicWithSaving load() {
         ServerLogicWithSaving serverLogicWithSaving1;
@@ -53,5 +71,4 @@ public class ServerLogicWithSaving extends ServerLogic implements Saving, Serial
     public List<String[]> getSaves() {
         return saves;
     }
-
 }
