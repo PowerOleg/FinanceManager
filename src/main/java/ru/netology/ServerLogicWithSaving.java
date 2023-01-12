@@ -9,6 +9,8 @@ import java.util.List;
 public class ServerLogicWithSaving extends ServerLogic implements Saving, Serializable {
     protected ServerLogic serverLogic;
     protected List<String[]> saves;
+    private static final long serialVersionUID = 1L;
+//            6529685098267757690L;                      //d
 
     public ServerLogicWithSaving(File file, ServerLogic serverLogic) {
         super(file);
@@ -24,7 +26,6 @@ public class ServerLogicWithSaving extends ServerLogic implements Saving, Serial
         saves.add(save);
     }
 
-
     @Override
     public void save() {
         try {
@@ -35,8 +36,8 @@ public class ServerLogicWithSaving extends ServerLogic implements Saving, Serial
         }
     }
 
-    @Override
-    public ServerLogicWithSaving load() {
+
+    public static ServerLogicWithSaving load() {
         ServerLogicWithSaving serverLogicWithSaving1;
         try {
             ObjectInputStream objectInputStream = new ObjectInputStream(Files.newInputStream(Paths.get("data.bin")));

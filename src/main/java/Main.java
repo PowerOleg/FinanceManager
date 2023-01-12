@@ -14,6 +14,9 @@ import ru.netology.ServerLogicWithSaving;
 import ru.netology.ServerResponseApp;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
@@ -22,12 +25,27 @@ public class Main {
         Thread thread1 = new Thread(new ServerResponseApp(new ServerLogic(productDatabase))); //логику можем положить и другую
 //        thread1.start();
 
-        ServerLogicWithSaving serverLogicWithSaving = new ServerLogicWithSaving(productDatabase, new ServerLogic(productDatabase));
+        ServerLogicWithSaving serverLogicWithSaving = ServerLogicWithSaving.load();
+//                new ServerLogicWithSaving(productDatabase, new ServerLogic(productDatabase));
 //        String[] line1 = {"1", "булка", "еда", "2022.02.08", "200"};
 //        String[] line2 = {"2", "тапки", "одежда", "2023.01.10", "400"};
 //        serverLogicWithSaving.add(line1);
 //        serverLogicWithSaving.add(line2);
+
+        for (String[] s : serverLogicWithSaving.getSaves()) {
+            System.out.println(Arrays.toString(s));
+        }
 //        serverLogicWithSaving.save();
-        serverLogicWithSaving.load();
+
+//
+//        List<String[]> saveList = new ArrayList<>();
+//        saveList = serverLogicWithSaving.getSaves();
+//        System.out.println(saveList);
+//        System.out.println("-");
+//
+//        System.out.println(serverLogicWithSaving.load());
+//        saveList = serverLogicWithSaving.getSaves();
+//        System.out.println(saveList);
+//                .forEach(n -> System.out.println(Arrays.deepToString(n)));
     }
 }
