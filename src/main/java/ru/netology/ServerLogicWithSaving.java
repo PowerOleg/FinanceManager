@@ -24,7 +24,7 @@ public class ServerLogicWithSaving extends ServerLogic implements Saving, Serial
 //[0] это номер строчки
         int id = 0;
         for (String[] s : saves) {
-            if (Integer.parseInt(s[0]) > id) id = Integer.parseInt(s[0]+1);
+            if (Integer.parseInt(s[0]) > id) id = Integer.parseInt(s[0]);
         }
 //[1] это наименование товара
         String product = productPurchase.getTitle();
@@ -35,7 +35,7 @@ public class ServerLogicWithSaving extends ServerLogic implements Saving, Serial
 //[4] это сумма
         String sum = String.valueOf(productPurchase.getSum());
 
-        String[] save = {String.valueOf(id), product, category, date, sum};
+        String[] save = {String.valueOf(id+1), product, category, date, sum};
         this.addSave(save);
         this.save();
         return response;
