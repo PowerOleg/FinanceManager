@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface Saving {
     void save();
-    ServerLogic load();
+    ServerLogicWithSaving load();
 }

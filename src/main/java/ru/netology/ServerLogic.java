@@ -5,17 +5,12 @@ import com.google.gson.GsonBuilder;
 import org.json.simple.JSONObject;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class ServerLogic implements Serializable {
-    private transient String[] products;
-    private transient String[] categories;
-    private transient TSV_Parser tsv_parser;
-    private transient int sum = 0;
+    protected String[] products;
+    protected String[] categories;
+    protected TSV_Parser tsv_parser;
+    protected int sum = 0;
 
     public ServerLogic(File file) {
         tsv_parser = new TSV_Parser();
@@ -53,8 +48,7 @@ public class ServerLogic implements Serializable {
     }
 
     public String response(String clientRequest) {
-
-//запись данных от запроса клиента в экземпляр класса productPurchase1
+//запись данных запроса клиента в экземпляр класса productPurchase1
         ProductPurchase productPurchase1 = null;
         try {
             productPurchase1 = getProductPurchase(clientRequest);
