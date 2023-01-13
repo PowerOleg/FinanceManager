@@ -9,6 +9,8 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
+       //нашел ошибку в выводе категории у стандартного ServerLogic, нужно переделать ветку master
+
         File productDatabase = new File("categories.tsv");
 //используется принцип декоратора для добавления функциональности классу ServerLogic. Теперь используем ServerLogicWithSaving
         Thread thread1 = new Thread(new ServerResponseApp(new ServerLogicWithSaving(productDatabase,new ServerLogic(productDatabase))));
