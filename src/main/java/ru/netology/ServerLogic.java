@@ -4,14 +4,13 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.json.simple.JSONObject;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
-public class ServerLogic {
-    private String[] products;
-    private String[] categories;
-    private TSV_Parser tsv_parser;
-    private int sum = 0;
+public class ServerLogic implements Serializable {
+    protected transient String[] products;
+    protected transient String[] categories;
+    protected transient TSV_Parser tsv_parser;
+    protected transient int sum = 0;
 
     public ServerLogic(File file) {
         tsv_parser = new TSV_Parser();
@@ -48,8 +47,8 @@ public class ServerLogic {
         return jsonObjectTopLevel.toJSONString();
     }
 
-    public String response(String clientRequest) {
-//запись данных от запроса клиента в экземпляр класса productPurchase1
+    public String response(String clientRequest) throws IOException {
+//запись данных запроса клиента в экземпляр класса productPurchase1
         ProductPurchase productPurchase1 = null;
         try {
             productPurchase1 = getProductPurchase(clientRequest);

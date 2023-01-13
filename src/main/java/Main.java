@@ -1,12 +1,19 @@
 import ru.netology.ServerLogic;
+import ru.netology.ServerLogicWithSaving;
 import ru.netology.ServerResponseApp;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
+       //нашел ошибку в выводе категории у стандартного ServerLogic, нужно переделать ветку master
+
         File productDatabase = new File("categories.tsv");
-        Thread thread1 = new Thread(new ServerResponseApp(new ServerLogic(productDatabase))); //логику можем положить и другую
+//используется принцип декоратора для добавления функциональности классу ServerLogic. Теперь используем ServerLogicWithSaving
+        Thread thread1 = new Thread(new ServerResponseApp(new ServerLogicWithSaving(productDatabase,new ServerLogic(productDatabase))));
         thread1.start();
     }
 }
