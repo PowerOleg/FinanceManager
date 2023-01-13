@@ -11,8 +11,7 @@ public class ServerLogic implements Serializable {
     protected transient String[] products;
     protected transient String[] categories;
     protected transient TSV_Parser tsv_parser;
-    protected transient int sum = 0;
-    protected Map<String, Integer> mapOfMaxCategories;
+    protected Map<String, Integer> mapMaxCategories;
 
     public ServerLogic(File file) {
         tsv_parser = new TSV_Parser();
@@ -40,6 +39,16 @@ public class ServerLogic implements Serializable {
         return result;
     }
 
+    public void updateMapOfMaxCategories(String category, int sum) {
+        //логика чтобы не просто добавлялось а суммы для категории накапливалась
+//        mapMaxCategories.put()
+    }
+
+    public String chooseMaxCategory() {
+        //логика определения категории с максимальной суммой
+        return null;
+    }
+
     public String makeResponse(String category, int sum) {
         JSONObject jsonObject1 = new JSONObject();
         JSONObject jsonObjectTopLevel = new JSONObject();
@@ -59,11 +68,12 @@ public class ServerLogic implements Serializable {
             throw new RuntimeException(e);
         }
 
-//обработка и подготовка данных для вывода
+//обновляем статистику по категориям и накопленным суммам. Определяем максимальную категорию
         String category = checkProductCategory(productPurchase1);
-        sum += productPurchase1.getSum();
-//формирование json и отправка
-        String response = makeResponse(category, sum);
+        updateMapOfMaxCategories(category, productPurchase1.getSum());
+        String maxCategory = chooseMaxCategory();
+//формирование json ответа и отправка
+        String response = makeResponse(maxCategory, mapMaxCategories.get(maxCategory));
         return response;
     }
 }
