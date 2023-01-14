@@ -18,7 +18,7 @@ public class ClientApp {
 
             JSONObject jsonObject1 = new JSONObject();
             jsonObject1.put("title", "акции");
-            jsonObject1.put("date", "2023.01.13");
+            jsonObject1.put("date", "2023.01.14");
             jsonObject1.put("sum", "1000");
 
             out.println(jsonObject1.toJSONString());
