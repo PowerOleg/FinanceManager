@@ -93,4 +93,16 @@ public class ServerLogic implements Serializable {
         String response = makeResponse(maxCategory, mapMaxCategories.get(maxCategory));
         return response;
     }
+
+    public void setProducts(String[] products) {
+        this.products = products;
+    }
+
+    public void setCategories(String[] categories) {
+        this.categories = categories;
+    }
+
+    public void setTsv_parser(TSV_Parser tsv_parser) {
+        this.tsv_parser = tsv_parser;
+    }
 }
