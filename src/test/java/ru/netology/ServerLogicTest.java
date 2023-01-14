@@ -95,8 +95,19 @@ public class ServerLogicTest {
         Map<String, Integer> resultMap = serverLogic.mapMaxCategories;
         Assertions.assertEquals(new ArrayList<>(serverLogic.mapMaxCategories.entrySet()), new ArrayList<>(expectedMap.entrySet()));
     }
-//     chooseMaxCategory();
 
+    @Test
+    public void testChooseMaxCategory() {
+        serverLogic = new ServerLogic(productDatabase);
+        serverLogic.updateMapOfMaxCategories("еда", 200);
+        serverLogic.updateMapOfMaxCategories("финансы", 150);
+        serverLogic.updateMapOfMaxCategories("финансы", 150);
+        serverLogic.updateMapOfMaxCategories("одежда", 400);
+        serverLogic.updateMapOfMaxCategories("финансы", 200);
+        serverLogic.updateMapOfMaxCategories("еда", 200);
 
-
+        String expected = "финансы";
+        String result = serverLogic.chooseMaxCategory();
+        Assertions.assertEquals(expected, result);
+    }
 }
