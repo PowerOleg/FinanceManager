@@ -10,6 +10,9 @@ import org.mockito.Mockito;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import static org.mockito.BDDMockito.given;
 import static ru.netology.ServerLogic.getProductPurchase;
@@ -83,4 +86,17 @@ public class ServerLogicTest {
         final String result = serverLogic.response(argument);
         Assertions.assertEquals(expected, result);
     }
+
+    @Test
+    public void testUpdateMapOfMaxCategoriesPositive() {
+        serverLogic = new ServerLogic(productDatabase);
+        serverLogic.updateMapOfMaxCategories("финансы", 500);
+        Map<String, Integer> expectedMap = Map.of("финансы", 500);
+        Map<String, Integer> resultMap = serverLogic.mapMaxCategories;
+        Assertions.assertEquals(new ArrayList<>(serverLogic.mapMaxCategories.entrySet()), new ArrayList<>(expectedMap.entrySet()));
+    }
+//     chooseMaxCategory();
+
+
+
 }
