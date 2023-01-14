@@ -2,19 +2,34 @@ package ru.netology;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ServerLogicWithSaving extends ServerLogic implements Saving, Serializable {
     protected ServerLogic serverLogic;
-    protected List<String[]> saves;
+    protected List<String[]> saves;                             //пронумерованный список всех произведенных запросов клиентов
     private static final long serialVersionUID = 1L;
 
 
     public ServerLogicWithSaving(File file, ServerLogic serverLogic) {
         super(file);
         this.serverLogic = serverLogic;
-        this.saves = ServerLogicWithSaving.load().getSaves();
+        try {
+            this.saves = ServerLogicWithSaving.load().getSaves();
+            this.mapMaxCategories = ServerLogicWithSaving.load().getMapMaxCategories();
+            System.out.println(saves);                                                  //d
+            System.out.println(mapMaxCategories);                                       //d
+
+        } catch (RuntimeException e) {
+            System.out.println("Отсутствует файл data.bin. Будет создан новый");
+            this.saves = new ArrayList<>();
+            this.mapMaxCategories = new HashMap<>();
+        }
+
     }
     //добавляется подготовка данных и запись данных
     @Override
@@ -37,6 +52,7 @@ public class ServerLogicWithSaving extends ServerLogic implements Saving, Serial
 
         String[] save = {String.valueOf(id+1), product, category, date, sum};
         this.addSave(save);
+        System.out.println(getMapMaxCategories());                                          //d
         this.save();
         return response;
     }
@@ -70,5 +86,8 @@ public class ServerLogicWithSaving extends ServerLogic implements Saving, Serial
 
     public List<String[]> getSaves() {
         return saves;
+    }
+    public Map<String, Integer> getMapMaxCategories() {
+        return mapMaxCategories;
     }
 }
