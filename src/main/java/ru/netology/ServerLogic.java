@@ -5,7 +5,10 @@ import com.google.gson.GsonBuilder;
 import org.json.simple.JSONObject;
 
 import java.io.*;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class ServerLogic implements Serializable {
     protected transient String[] products;
@@ -21,6 +24,7 @@ public class ServerLogic implements Serializable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        mapMaxCategories = new HashMap<>();
     }
 
     public static ProductPurchase getProductPurchase(String clientRequest) throws IOException {
@@ -40,13 +44,30 @@ public class ServerLogic implements Serializable {
     }
 
     public void updateMapOfMaxCategories(String category, int sum) {
-        //логика чтобы не просто добавлялось а суммы для категории накапливалась
-//        mapMaxCategories.put()
+//логика чтобы суммы для категории накапливалась
+        for (String categoryInMap : mapMaxCategories.keySet()) {
+            if(categoryInMap.equalsIgnoreCase(category)) {
+                mapMaxCategories.put(category, mapMaxCategories.get(category)+sum);
+                break;
+            }
+        }
+        mapMaxCategories.put(category, sum);
     }
 
     public String chooseMaxCategory() {
-        //логика определения категории с максимальной суммой
-        return null;
+        //логика определения категории с максимальной суммой-сортировка
+       Optional<Map.Entry<String, Integer>> o =
+               mapMaxCategories.entrySet().stream().max(Comparator.comparingInt(n -> n.getValue()));
+        if (o.isPresent()) {
+            String s = String.valueOf(o.get());
+            System.out.println(s);                                                                //d
+            String[] ss = s.split("=");
+
+            return ss[0];
+        } else {
+            System.out.println("Статистики запросов от клиента - нет");
+            return null;
+        }
     }
 
     public String makeResponse(String category, int sum) {
