@@ -47,7 +47,6 @@ public class ServerLogicTest {
 
         final String expected = "еда";
         final String result = serverLogic.checkProductCategory(productPurchase);
-        System.out.println(result);
         Assertions.assertEquals(expected, result);
     }
 
@@ -64,19 +63,19 @@ public class ServerLogicTest {
         Assertions.assertEquals(expected, result);
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = {"быт"})
-    public void testMakeResponsePositive(String argument) {
+
+    @Test
+    public void testMakeResponsePositive() {
         serverLogic = new ServerLogic(productDatabase);
         final String expected = "{\"maxCategory\":{\"sum\":200,\"category\":\"быт\"}}";
-        final String result = serverLogic.makeResponse(argument, 200);
+        final String result = serverLogic.makeResponse("быт", 200);
         Assertions.assertEquals(expected, result);
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"{\"title\": \"булка\", \"date\": \"2022.02.08\", \"sum\": 200}",
-            "{\"title\": \"колбаса\", \"date\": \"2022.02.08\", \"sum\": 200}"})
-    public void testResponsePositive(String argument) {
+            "{\"title\": \"колбаса\", \"date\": \"2022.10.08\", \"sum\": 200}"})
+    public void testResponsePositive(String argument) throws IOException {
         final String[] productArrayTest = {"булка", "колбаса", "сухарики", "курица", "тапки", "шапка", "мыло", "акции"};
         final String[] categoriesArrayTest = {"еда", "еда", "еда", "еда", "одежда", "одежда", "быт", "финансы"};
         serverLogic = new ServerLogicImpl1(productDatabase, productArrayTest, categoriesArrayTest);
