@@ -10,6 +10,9 @@ import org.mockito.Mockito;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import static org.mockito.BDDMockito.given;
 import static ru.netology.ServerLogic.getProductPurchase;
@@ -47,7 +50,6 @@ public class ServerLogicTest {
 
         final String expected = "еда";
         final String result = serverLogic.checkProductCategory(productPurchase);
-        System.out.println(result);
         Assertions.assertEquals(expected, result);
     }
 
@@ -64,24 +66,48 @@ public class ServerLogicTest {
         Assertions.assertEquals(expected, result);
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = {"быт"})
-    public void testMakeResponsePositive(String argument) {
+
+    @Test
+    public void testMakeResponsePositive() {
         serverLogic = new ServerLogic(productDatabase);
         final String expected = "{\"maxCategory\":{\"sum\":200,\"category\":\"быт\"}}";
-        final String result = serverLogic.makeResponse(argument, 200);
+        final String result = serverLogic.makeResponse("быт", 200);
         Assertions.assertEquals(expected, result);
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"{\"title\": \"булка\", \"date\": \"2022.02.08\", \"sum\": 200}",
-            "{\"title\": \"колбаса\", \"date\": \"2022.02.08\", \"sum\": 200}"})
-    public void testResponsePositive(String argument) {
+            "{\"title\": \"колбаса\", \"date\": \"2022.10.08\", \"sum\": 200}"})
+    public void testResponsePositive(String argument) throws IOException {
         final String[] productArrayTest = {"булка", "колбаса", "сухарики", "курица", "тапки", "шапка", "мыло", "акции"};
         final String[] categoriesArrayTest = {"еда", "еда", "еда", "еда", "одежда", "одежда", "быт", "финансы"};
         serverLogic = new ServerLogicImpl1(productDatabase, productArrayTest, categoriesArrayTest);
         final String expected = "{\"maxCategory\":{\"sum\":200,\"category\":\"еда\"}}";
         final String result = serverLogic.response(argument);
+        Assertions.assertEquals(expected, result);
+    }
+
+    @Test
+    public void testUpdateMapOfMaxCategoriesPositive() {
+        serverLogic = new ServerLogic(productDatabase);
+        serverLogic.updateMapOfMaxCategories("финансы", 500);
+        Map<String, Integer> expectedMap = Map.of("финансы", 500);
+        Map<String, Integer> resultMap = serverLogic.mapMaxCategories;
+        Assertions.assertEquals(new ArrayList<>(serverLogic.mapMaxCategories.entrySet()), new ArrayList<>(expectedMap.entrySet()));
+    }
+
+    @Test
+    public void testChooseMaxCategory() {
+        serverLogic = new ServerLogic(productDatabase);
+        serverLogic.updateMapOfMaxCategories("еда", 200);
+        serverLogic.updateMapOfMaxCategories("финансы", 150);
+        serverLogic.updateMapOfMaxCategories("финансы", 150);
+        serverLogic.updateMapOfMaxCategories("одежда", 400);
+        serverLogic.updateMapOfMaxCategories("финансы", 200);
+        serverLogic.updateMapOfMaxCategories("еда", 200);
+
+        String expected = "финансы";
+        String result = serverLogic.chooseMaxCategory();
         Assertions.assertEquals(expected, result);
     }
 }
