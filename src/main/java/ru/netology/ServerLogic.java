@@ -48,22 +48,18 @@ public class ServerLogic implements Serializable {
         for (String categoryInMap : mapMaxCategories.keySet()) {
             if(categoryInMap.equalsIgnoreCase(category)) {
                 mapMaxCategories.put(category, mapMaxCategories.get(category)+sum);
-                break;
+                return;
             }
         }
         mapMaxCategories.put(category, sum);
     }
 
     public String chooseMaxCategory() {
-        //логика определения категории с максимальной суммой-сортировка
-       Optional<Map.Entry<String, Integer>> o =
-               mapMaxCategories.entrySet().stream().max(Comparator.comparingInt(n -> n.getValue()));
-        if (o.isPresent()) {
-            String s = String.valueOf(o.get());
-            System.out.println(s);                                                                //d
-            String[] ss = s.split("=");
+//логика определения категории с максимальной суммой (посредством сортировки)
+       Optional<Map.Entry<String, Integer>> o = mapMaxCategories.entrySet().stream().max(Comparator.comparingInt(n -> n.getValue()));
 
-            return ss[0];
+       if (o.isPresent()) {
+            return o.get().getKey();
         } else {
             System.out.println("Статистики запросов от клиента - нет");
             return null;
