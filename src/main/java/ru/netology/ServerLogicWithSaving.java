@@ -52,40 +52,9 @@ public class ServerLogicWithSaving extends ServerLogic implements Serializable {
     //добавляется подготовка данных и запись данных
     @Override
     public String response(String clientRequest) throws IOException {
-////запись данных запроса клиента в экземпляр класса productPurchase1
-//        ProductPurchase productPurchase1 = null;
-//        try {
-//            productPurchase1 = getProductPurchase(clientRequest);
-//        } catch (IOException e) {
-//            System.out.println("Не верный запрос от клиента");
-//            throw new RuntimeException(e);
-//        }
-//
-////обновляем статистику по категориям и накопленным суммам. Определяем максимальную категорию
-//        String category = checkProductCategory(productPurchase1);
-//        updateMapOfMaxCategories(mapMaxCategories, category, productPurchase1.getSum());          //!
-//        String maxCategory = chooseMaxCategory(mapMaxCategories);
-////формирование json ответа и отправка
-//        String response = makeResponse(maxCategory, mapMaxCategories.get(maxCategory));
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                                //нужно написать чтобы выполнялись старые нужные функции этого метода
-        String response = super.response(clientRequest);           //!нужно ставить super чтобы выполнялись новые переопределенные методы и с обновлениями
         updateSaves(clientRequest);
+        String response = super.response(clientRequest);           //!нужно ставить super чтобы выполнялись новые переопределенные методы и с обновлениями
         this.save();
         return response;
     }

@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.sql.Date;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.sql.Date;
@@ -32,7 +33,6 @@ public class ServerLogicWithDates extends ServerLogicWithSaving implements Seria
     public String response(String clientRequest) throws IOException {
         String response1 = super.response(clientRequest);
 
-
         return response1;
     }
 
@@ -46,6 +46,16 @@ public class ServerLogicWithDates extends ServerLogicWithSaving implements Seria
         System.out.println("6 mapMax Categories DatesClass" + mapMaxCategories);                  //d
 
 
+
+        //d
+//        for (String[] s : saves) {
+//            System.out.println("тут");
+//            System.out.println(Arrays.toString(s));
+//        }
+
+
+
+
 //        Map<String, Integer> maxYearCategory =
         LocalDate date1;
         for (String[] line : saves) {
@@ -54,15 +64,12 @@ public class ServerLogicWithDates extends ServerLogicWithSaving implements Seria
                 updateMapOfMaxCategories(maxYearCategory, line[2], Integer.parseInt(line[4]));
             }
         }
-
-        return jsonObjectTopLevel.toJSONString();
-    }
-//        System.out.println("7 "+maxYearCategory);                                                    //d
-////        String yearCaterory = chooseMaxCategory(maxYearCategory);               //тут ошибка
-////        JSONObject jsonObject2 = new JSONObject();
-////        jsonObject2.put("category", yearCaterory);
-////        jsonObject2.put("sum", maxYearCategory.get(yearCaterory));
-////        jsonObjectTopLevel.put("maxYearCategory", jsonObject2);
+        String yearCategory = chooseMaxCategory(maxYearCategory);
+        JSONObject jsonObject2 = new JSONObject();
+        jsonObject2.put("category", yearCategory);
+        jsonObject2.put("sum", maxYearCategory.get(yearCategory));
+        jsonObjectTopLevel.put("maxYearCategory", jsonObject2);
+        maxYearCategory.clear();
 //
 //
 //
@@ -79,8 +86,8 @@ public class ServerLogicWithDates extends ServerLogicWithSaving implements Seria
 ////        jsonObject4.put("sum", );
 ////        jsonObjectTopLevel.put("maxDayCategory", );
 //
-//        return jsonObjectTopLevel.toJSONString();
-//    }
+        return jsonObjectTopLevel.toJSONString();
+    }
 
 
 
