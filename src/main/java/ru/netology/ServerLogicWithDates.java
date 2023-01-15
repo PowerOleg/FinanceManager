@@ -14,7 +14,7 @@ public class ServerLogicWithDates extends ServerLogicWithSaving implements Seria
     protected Map<String, Integer> maxYearCategory;
     protected Map<String, Integer> maxMonthCategory;
     protected Map<String, Integer> maxDayCategory;
-    private transient ProductPurchase lastPurchase;
+    protected transient ProductPurchase lastPurchase;
 
     public ServerLogicWithDates(File file, ServerLogic serverLogic) {
         super(file, serverLogic);
