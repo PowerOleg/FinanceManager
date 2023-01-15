@@ -17,8 +17,8 @@ public class ClientApp {
              PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true)) {
 
             JSONObject jsonObject1 = new JSONObject();
-            jsonObject1.put("title", "акции");
-            jsonObject1.put("date", "2023.01.14");
+            jsonObject1.put("title", "булка");
+            jsonObject1.put("date", "2023.01.12");
             jsonObject1.put("sum", "100");
 
             out.println(jsonObject1.toJSONString());
