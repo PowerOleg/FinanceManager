@@ -49,11 +49,11 @@ public class ServerLogicWithSaving extends ServerLogic implements Serializable {
         return serverLogicWithSaving1;
     }
 
-    //добавляется подготовка данных и запись данных
+    //добавляется запись данных
     @Override
     public String response(String clientRequest) throws IOException {
         updateSaves(clientRequest);
-        String response = super.response(clientRequest);           //!нужно ставить super чтобы выполнялись новые переопределенные методы и с обновлениями
+        String response = super.response(clientRequest);
         this.save();
         return response;
     }
