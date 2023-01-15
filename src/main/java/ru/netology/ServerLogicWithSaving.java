@@ -18,7 +18,9 @@ public class ServerLogicWithSaving extends ServerLogic implements Serializable {
             this.saves = ServerLogicWithSaving.load().getSaves();
             System.out.println("1 "+saves);                                                             //d
             this.serverLogic = ServerLogicWithSaving.load().getServerLogic();
-            System.out.println(this.serverLogic.mapMaxCategories);                                      //d
+            this.mapMaxCategories = ServerLogicWithSaving.load().mapMaxCategories;                      //new
+            System.out.println("4 "+this.serverLogic.mapMaxCategories);                                      //d ! гдето нажал что перестал сохраняться данные в serverLogic.mapMaxCategories, а в mapMaxCategories этого класса теперь
+            System.out.println("5"+this.mapMaxCategories);                                              //d
             try {
                 this.serverLogic.setProducts(products = tsv_parser.parse(file, 2));
                 this.serverLogic.setCategories(categories = tsv_parser.parse(file, 3));
@@ -50,13 +52,57 @@ public class ServerLogicWithSaving extends ServerLogic implements Serializable {
     //добавляется подготовка данных и запись данных
     @Override
     public String response(String clientRequest) throws IOException {
+////запись данных запроса клиента в экземпляр класса productPurchase1
+//        ProductPurchase productPurchase1 = null;
+//        try {
+//            productPurchase1 = getProductPurchase(clientRequest);
+//        } catch (IOException e) {
+//            System.out.println("Не верный запрос от клиента");
+//            throw new RuntimeException(e);
+//        }
+//
+////обновляем статистику по категориям и накопленным суммам. Определяем максимальную категорию
+//        String category = checkProductCategory(productPurchase1);
+//        updateMapOfMaxCategories(mapMaxCategories, category, productPurchase1.getSum());          //!
+//        String maxCategory = chooseMaxCategory(mapMaxCategories);
+////формирование json ответа и отправка
+//        String response = makeResponse(maxCategory, mapMaxCategories.get(maxCategory));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                                                 //нужно написать чтобы выполнялись старые нужные функции этого метода
-        String response = serverLogic.response(clientRequest);           //!нужно ставить super чтобы выполнялись новые переопределенные методы и с обновлениями
+        String response = super.response(clientRequest);           //!нужно ставить super чтобы выполнялись новые переопределенные методы и с обновлениями
         updateSaves(clientRequest);
         this.save();
         return response;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public void updateSaves(String clientRequest) throws IOException {
         ProductPurchase productPurchase = getProductPurchase(clientRequest);

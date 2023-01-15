@@ -87,8 +87,8 @@ public class ServerLogic implements Serializable {
 
 //обновляем статистику по категориям и накопленным суммам. Определяем максимальную категорию
         String category = checkProductCategory(productPurchase1);
-        updateMapOfMaxCategories(mapMaxCategories, category, productPurchase1.getSum());
-        String maxCategory = chooseMaxCategory(mapMaxCategories);
+        updateMapOfMaxCategories(this.mapMaxCategories, category, productPurchase1.getSum());
+        String maxCategory = chooseMaxCategory(this.mapMaxCategories);
 //формирование json ответа и отправка
         String response = makeResponse(maxCategory, mapMaxCategories.get(maxCategory));
         return response;
