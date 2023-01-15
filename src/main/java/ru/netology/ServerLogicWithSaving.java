@@ -17,6 +17,7 @@ public class ServerLogicWithSaving extends ServerLogic implements Serializable {
         try {
             this.saves = ServerLogicWithSaving.load().getSaves();
             this.serverLogic = ServerLogicWithSaving.load().getServerLogic();
+            this.mapMaxCategories = ServerLogicWithSaving.load().mapMaxCategories;
             try {
                 this.serverLogic.setProducts(products = tsv_parser.parse(file, 2));
                 this.serverLogic.setCategories(categories = tsv_parser.parse(file, 3));
@@ -45,10 +46,16 @@ public class ServerLogicWithSaving extends ServerLogic implements Serializable {
         return serverLogicWithSaving1;
     }
 
-    //добавляется подготовка данных и запись данных
+    //добавляется запись данных
     @Override
     public String response(String clientRequest) throws IOException {
-        String response = serverLogic.response(clientRequest);
+        updateSaves(clientRequest);
+        String response = super.response(clientRequest);
+        this.save();
+        return response;
+    }
+
+    public void updateSaves(String clientRequest) throws IOException {
         ProductPurchase productPurchase = getProductPurchase(clientRequest);
 //[0] это номер строчки
         int id = 0;
@@ -66,8 +73,6 @@ public class ServerLogicWithSaving extends ServerLogic implements Serializable {
 
         String[] save = {String.valueOf(id + 1), product, category, date, sum};
         this.addSave(save);
-        this.save();
-        return response;
     }
 
     public void addSave(String[] save) {
