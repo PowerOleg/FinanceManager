@@ -8,33 +8,58 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
-//    date2.format(DateTimeFormatter.ofPattern("d.MM.uuuu")) использования своего формата не работает в 11 версии джавы.
+
 
 public class ServerLogicWithDates extends ServerLogic {
     protected ServerLogic serverLogic;
-    protected Map<LocalDate, String[]> maxYearCategory;
-    protected Map<LocalDate, String[]> maxMonthCategory;
-    protected Map<LocalDate, String[]> maxDayCategory;
+    protected Map<String, Integer> maxYearCategory;
+    protected Map<String, Integer>  maxMonthCategory;
+    protected Map<String, Integer>  maxDayCategory;
 
 //    один Map - одна контрольная точка
 //    контрольные точки:
-//за последний год/месяц/день совпадающий с годом последней покупки,
+//все делают последний год/месяц/день совпадающий с годом последней покупки,
+//надо попытаться за последний
+//    за последний год
 //    за последний месяц
 //    за последний день
 
-
-
-    public void updateMaxDayCategory(String date, String[] categoryAndSum) {
-        LocalDate date1 = LocalDate.parse(date.replace('.', '-'));
-        for (LocalDate date : maxDayCategory.keySet()) {
-
+//убрать productPurchase и передать дату
+    public void updateMaxDayCategory(ProductPurchase productPurchase, String category, Integer sum) {
+        LocalDate date1 = LocalDate.parse(productPurchase.getDate().replace('.', '-'));
+//?????за последнй день это надо сравниват с датой покупки которая в списке
+        if (date1.isEqual(/*тут должна быть дата из мапы*/)) {
+            for (String category1 : maxDayCategory.keySet()) {
+                if (category1.equalsIgnoreCase(category)) {
+                    maxDayCategory.put(category1, maxDayCategory.get(category1) + sum);
+                    return;
+                }
+            }
+            maxDayCategory.put(category, sum);
         }
-        maxDayCategory.put();
     }
 
-    public String[] chooseMaxDayCategory() {
 
-        return maxDayCategory.get();
+//получается мапа хранит все покупки и даты за нужный период, месяц- это за 30 дней. и каждый день ползунок сдвигается
+    public void updateMaxMonthCategory(ProductPurchase productPurchase, String category, Integer sum) {
+        LocalDate date1 = LocalDate.parse(productPurchase.getDate().replace('.', '-'));
+//за последнй месяц + надо сравниват с датой покупки которая в списке
+//покупка 15.02.2023
+//в мапе категория за 01.02.2023
+//в мапе категория за 29.01.2023
+//все суммируется потому что 15.02 - 30 = 15.01
+
+
+//условие: если дата
+        if (date1.getMonthValue() == ) {
+            for (String category1 : maxDayCategory.keySet()) {
+                if (category1.equalsIgnoreCase(category)) {
+                    maxDayCategory.put(category1,  maxDayCategory.get(category1)+sum);
+                    return;
+                }
+            }
+            maxDayCategory.put(category, sum);
+        }
     }
 
 
