@@ -58,7 +58,7 @@ public class ServerLogicWithDates extends ServerLogicWithSaving implements Seria
         for (String[] line : saves) {
             date1 = LocalDate.parse(line[3].replace('.', '-'));
 
-            if (date1.getYear() == dateLastPurchase.getYear()) {                                              //!!!костыль. убрать 2023
+            if (date1.getYear() == dateLastPurchase.getYear()) {
                 updateMapOfMaxCategories(maxYearCategory, line[2], Integer.parseInt(line[4]));
             }
         }
@@ -68,20 +68,21 @@ public class ServerLogicWithDates extends ServerLogicWithSaving implements Seria
         jsonObject2.put("sum", maxYearCategory.get(yearCategory));
         jsonObjectTopLevel.put("maxYearCategory", jsonObject2);
         maxYearCategory.clear();
-//
-//        LocalDate date2;
-//        for (String[] line : saves) {
-//            date2 = LocalDate.parse(line[3].replace('.', '-'));
-//            if (date2.getMonthValue() == 2) {                                              //!!!костыль. убрать 2023
-//                updateMapOfMaxCategories(maxYearCategory, line[2], Integer.parseInt(line[4]));
-//            }
-//        }
 
-//        JSONObject jsonObject3 = new JSONObject();
-//        jsonObject3.put("category", );
-//        jsonObject3.put("sum", );
-//        jsonObjectTopLevel.put("maxMonthCategory", );
-//
+        LocalDate date2;
+        for (String[] line : saves) {
+            date2 = LocalDate.parse(line[3].replace('.', '-'));
+            if (date2.getYear() == dateLastPurchase.getYear() && date2.getMonthValue() == dateLastPurchase.getMonthValue()) {
+                updateMapOfMaxCategories(maxMonthCategory, line[2], Integer.parseInt(line[4]));
+            }
+        }
+        String monthCategory = chooseMaxCategory(maxMonthCategory);
+
+        JSONObject jsonObject3 = new JSONObject();
+        jsonObject3.put("category", monthCategory);
+        jsonObject3.put("sum", maxMonthCategory.get(monthCategory));
+        jsonObjectTopLevel.put("maxMonthCategory", jsonObject3);
+        maxMonthCategory.clear();
 ////        JSONObject jsonObject4 = new JSONObject();
 ////        jsonObject4.put("category", );
 ////        jsonObject4.put("sum", );
