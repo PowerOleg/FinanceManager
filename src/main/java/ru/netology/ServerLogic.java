@@ -43,20 +43,20 @@ public class ServerLogic implements Serializable {
         return result;
     }
 
-    public void updateMapOfMaxCategories(String category, int sum) {
+    public void updateMapOfMaxCategories(Map<String, Integer> map, String category, int sum) {
 //логика чтобы суммы для категории накапливалась
-        for (String categoryInMap : mapMaxCategories.keySet()) {
+        for (String categoryInMap : map.keySet()) {
             if(categoryInMap.equalsIgnoreCase(category)) {
-                mapMaxCategories.put(category, mapMaxCategories.get(category)+sum);
+                map.put(category, map.get(category)+sum);
                 return;
             }
         }
         mapMaxCategories.put(category, sum);
     }
 
-    public String chooseMaxCategory() {
+    public String chooseMaxCategory(Map<String, Integer> map) {
 //логика определения категории с максимальной суммой (посредством сортировки)
-       Optional<Map.Entry<String, Integer>> o = mapMaxCategories.entrySet().stream().max(Comparator.comparingInt(n -> n.getValue()));
+       Optional<Map.Entry<String, Integer>> o = map.entrySet().stream().max(Comparator.comparingInt(n -> n.getValue()));
 
        if (o.isPresent()) {
             return o.get().getKey();
@@ -87,8 +87,8 @@ public class ServerLogic implements Serializable {
 
 //обновляем статистику по категориям и накопленным суммам. Определяем максимальную категорию
         String category = checkProductCategory(productPurchase1);
-        updateMapOfMaxCategories(category, productPurchase1.getSum());
-        String maxCategory = chooseMaxCategory();
+        updateMapOfMaxCategories(mapMaxCategories, category, productPurchase1.getSum());
+        String maxCategory = chooseMaxCategory(mapMaxCategories);
 //формирование json ответа и отправка
         String response = makeResponse(maxCategory, mapMaxCategories.get(maxCategory));
         return response;

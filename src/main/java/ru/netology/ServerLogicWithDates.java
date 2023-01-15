@@ -1,8 +1,13 @@
 package ru.netology;
 
+import org.json.simple.JSONObject;
+
 import java.io.File;
+import java.io.IOException;
+import java.io.Serializable;
 import java.sql.Date;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.Map;
 import java.sql.Date;
 import java.time.LocalDate;
@@ -10,84 +15,89 @@ import java.time.Month;
 import java.time.format.DateTimeFormatter;
 
 
-public class ServerLogicWithDates extends ServerLogic {
-    protected ServerLogic serverLogic;
+public class ServerLogicWithDates extends ServerLogicWithSaving implements Serializable {
     protected Map<String, Integer> maxYearCategory;
     protected Map<String, Integer>  maxMonthCategory;
     protected Map<String, Integer>  maxDayCategory;
 
-//    один Map - одна контрольная точка
-//    контрольные точки:
-//все делают последний год/месяц/день совпадающий с годом последней покупки,
-//надо попытаться за последний
-//    за последний год
-//    за последний месяц
-//    за последний день
-
-//убрать productPurchase и передать дату
-    public void updateMaxDayCategory(ProductPurchase productPurchase, String category, Integer sum) {
-        LocalDate date1 = LocalDate.parse(productPurchase.getDate().replace('.', '-'));
-//?????за последнй день это надо сравниват с датой покупки которая в списке
-        if (date1.isEqual(/*тут должна быть дата из мапы*/)) {
-            for (String category1 : maxDayCategory.keySet()) {
-                if (category1.equalsIgnoreCase(category)) {
-                    maxDayCategory.put(category1, maxDayCategory.get(category1) + sum);
-                    return;
-                }
-            }
-            maxDayCategory.put(category, sum);
-        }
+    public ServerLogicWithDates(File file, ServerLogic serverLogic) {
+        super(file, serverLogic);
+        maxYearCategory = new HashMap<>();
+        maxMonthCategory = new HashMap<>();
+        maxDayCategory = new HashMap<>();
     }
 
-
-//получается мапа хранит все покупки и даты за нужный период, месяц- это за 30 дней. и каждый день ползунок сдвигается
-    public void updateMaxMonthCategory(ProductPurchase productPurchase, String category, Integer sum) {
-        LocalDate date1 = LocalDate.parse(productPurchase.getDate().replace('.', '-'));
-//за последнй месяц + надо сравниват с датой покупки которая в списке
-//покупка 15.02.2023
-//в мапе категория за 01.02.2023
-//в мапе категория за 29.01.2023
-//все суммируется потому что 15.02 - 30 = 15.01
+    @Override
+    public String makeResponse(String category, int sum) {
+        JSONObject jsonObjectTopLevel = new JSONObject();
+        JSONObject jsonObject1 = new JSONObject();
+        jsonObject1.put("category", category);
+        jsonObject1.put("sum", sum);
+        jsonObjectTopLevel.put("maxCategory", jsonObject1);
 
 
-//условие: если дата
-        if (date1.getMonthValue() == ) {
-            for (String category1 : maxDayCategory.keySet()) {
-                if (category1.equalsIgnoreCase(category)) {
-                    maxDayCategory.put(category1,  maxDayCategory.get(category1)+sum);
-                    return;
-                }
+//        Map<String, Integer> maxYearCategory =
+        LocalDate date1;
+        for (String[] line : saves) {
+            date1 = LocalDate.parse(line[3].replace('.', '-'));
+            System.out.println(date1);                                                  //d
+            if (date1.getYear() == 2023) {                                              //!!!костыль. убрать 2023
+                updateMapOfMaxCategories(maxYearCategory, line[2], Integer.parseInt(line[4]));
             }
-            maxDayCategory.put(category, sum);
         }
-    }
+        System.out.println(maxYearCategory);                                                    //d
+        String yearCaterory = chooseMaxCategory(maxYearCategory);
+        JSONObject jsonObject2 = new JSONObject();
+        jsonObject2.put("category", yearCaterory);
+        jsonObject2.put("sum", maxYearCategory.get(yearCaterory));
+        jsonObjectTopLevel.put("maxYearCategory", jsonObject2);
 
 
 
 
 
 
-
-    //        LocalDate day256_2017 = LocalDate.ofYearDay(2014, 256);
-//        System.out.println("256 день 2017 : " + day256_2017);          // 256 день 2017 года : 2017-09-13
+//        JSONObject jsonObject3 = new JSONObject();
+//        jsonObject3.put("category", );
+//        jsonObject3.put("sum", );
+//        jsonObjectTopLevel.put("maxMonthCategory", );
 //
-//спер у Егора)
-//private String title;
-//    private Long sum;
-//    private String category;
-//    private String date;
-//    private LocalDate parsedDate;
+//        JSONObject jsonObject4 = new JSONObject();
+//        jsonObject4.put("category", );
+//        jsonObject4.put("sum", );
+//        jsonObjectTopLevel.put("maxDayCategory", );
 
-//    public int getPurchaseYear() {
-//        this.date = date.replace('.', '-');
-//        this.parsedDate = LocalDate.parse(date);
-//        return parsedDate.getYear();
-//    }
-
-
-    public ServerLogicWithDates(File file) {
-        super(file);
+        return jsonObjectTopLevel.toJSONString();
     }
+
+
+    @Override
+    public String response(String clientRequest) throws IOException {
+       String response1 = super.response(clientRequest);              //это и что ниже - равносильно
+//        String response = serverLogic.response(clientRequest);
+//        ProductPurchase productPurchase = getProductPurchase(clientRequest);
+////[0] это номер строчки
+//        int id = 0;
+//        for (String[] s : saves) {
+//            if (Integer.parseInt(s[0]) > id) id = Integer.parseInt(s[0]);
+//        }
+////[1] это наименование товара
+//        String product = productPurchase.getTitle();
+////[2] это наименование категории
+//        String category = checkProductCategory(productPurchase);
+////[3] это дата
+//        String date = productPurchase.getDate();
+////[4] это сумма
+//        String sum = String.valueOf(productPurchase.getSum());
+//
+//        String[] save = {String.valueOf(id + 1), product, category, date, sum};
+//        this.addSave(save);
+//        this.save();
+//        return response;
+        return response1;
+    }
+
+
 
 
 
