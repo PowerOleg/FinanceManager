@@ -16,11 +16,11 @@ public class ServerLogicWithSaving extends ServerLogic implements Serializable {
         super(file);
         try {
             this.saves = ServerLogicWithSaving.load().getSaves();
-            System.out.println("1 "+saves);                                                             //d
+            System.out.println("1 saves atLoad"+saves);                                                             //d
             this.serverLogic = ServerLogicWithSaving.load().getServerLogic();
             this.mapMaxCategories = ServerLogicWithSaving.load().mapMaxCategories;                      //new
             System.out.println("4 "+this.serverLogic.mapMaxCategories);                                      //d ! гдето нажал что перестал сохраняться данные в serverLogic.mapMaxCategories, а в mapMaxCategories этого класса теперь
-            System.out.println("5"+this.mapMaxCategories);                                              //d
+            System.out.println("5 mapMaxCategories atLoad"+this.mapMaxCategories);                                              //d
             try {
                 this.serverLogic.setProducts(products = tsv_parser.parse(file, 2));
                 this.serverLogic.setCategories(categories = tsv_parser.parse(file, 3));
@@ -122,7 +122,7 @@ public class ServerLogicWithSaving extends ServerLogic implements Serializable {
 
         String[] save = {String.valueOf(id + 1), product, category, date, sum};
         this.addSave(save);
-        System.out.println("2 "+ saves);                                                        //d
+        System.out.println("2 saves atEnd "+ saves);                                                        //d
     }
 
     public void addSave(String[] save) {

@@ -27,6 +27,15 @@ public class ServerLogicWithDates extends ServerLogicWithSaving implements Seria
         maxDayCategory = new HashMap<>();
     }
 
+
+    @Override
+    public String response(String clientRequest) throws IOException {
+        String response1 = super.response(clientRequest);
+
+
+        return response1;
+    }
+
     @Override
     public String makeResponse(String category, int sum) {
         JSONObject jsonObjectTopLevel = new JSONObject();
@@ -34,68 +43,46 @@ public class ServerLogicWithDates extends ServerLogicWithSaving implements Seria
         jsonObject1.put("category", category);
         jsonObject1.put("sum", sum);
         jsonObjectTopLevel.put("maxCategory", jsonObject1);
+        System.out.println("6 mapMax Categories DatesClass" + mapMaxCategories);                  //d
 
 
 //        Map<String, Integer> maxYearCategory =
         LocalDate date1;
         for (String[] line : saves) {
             date1 = LocalDate.parse(line[3].replace('.', '-'));
-            System.out.println(date1);                                                  //d
             if (date1.getYear() == 2023) {                                              //!!!костыль. убрать 2023
                 updateMapOfMaxCategories(maxYearCategory, line[2], Integer.parseInt(line[4]));
             }
         }
-        System.out.println(maxYearCategory);                                                    //d
-        String yearCaterory = chooseMaxCategory(maxYearCategory);
-        JSONObject jsonObject2 = new JSONObject();
-        jsonObject2.put("category", yearCaterory);
-        jsonObject2.put("sum", maxYearCategory.get(yearCaterory));
-        jsonObjectTopLevel.put("maxYearCategory", jsonObject2);
-
-
-
-
-
-
-//        JSONObject jsonObject3 = new JSONObject();
-//        jsonObject3.put("category", );
-//        jsonObject3.put("sum", );
-//        jsonObjectTopLevel.put("maxMonthCategory", );
-//
-//        JSONObject jsonObject4 = new JSONObject();
-//        jsonObject4.put("category", );
-//        jsonObject4.put("sum", );
-//        jsonObjectTopLevel.put("maxDayCategory", );
 
         return jsonObjectTopLevel.toJSONString();
     }
-
-
-    @Override
-    public String response(String clientRequest) throws IOException {
-       String response1 = super.response(clientRequest);              //это и что ниже - равносильно
-//        String response = serverLogic.response(clientRequest);
-//        ProductPurchase productPurchase = getProductPurchase(clientRequest);
-////[0] это номер строчки
-//        int id = 0;
-//        for (String[] s : saves) {
-//            if (Integer.parseInt(s[0]) > id) id = Integer.parseInt(s[0]);
-//        }
-////[1] это наименование товара
-//        String product = productPurchase.getTitle();
-////[2] это наименование категории
-//        String category = checkProductCategory(productPurchase);
-////[3] это дата
-//        String date = productPurchase.getDate();
-////[4] это сумма
-//        String sum = String.valueOf(productPurchase.getSum());
+//        System.out.println("7 "+maxYearCategory);                                                    //d
+////        String yearCaterory = chooseMaxCategory(maxYearCategory);               //тут ошибка
+////        JSONObject jsonObject2 = new JSONObject();
+////        jsonObject2.put("category", yearCaterory);
+////        jsonObject2.put("sum", maxYearCategory.get(yearCaterory));
+////        jsonObjectTopLevel.put("maxYearCategory", jsonObject2);
 //
-//        String[] save = {String.valueOf(id + 1), product, category, date, sum};
-//        this.addSave(save);
-//        this.save();
-//        return response;
-        return response1;
-    }
+//
+//
+//
+//
+//
+////        JSONObject jsonObject3 = new JSONObject();
+////        jsonObject3.put("category", );
+////        jsonObject3.put("sum", );
+////        jsonObjectTopLevel.put("maxMonthCategory", );
+////
+////        JSONObject jsonObject4 = new JSONObject();
+////        jsonObject4.put("category", );
+////        jsonObject4.put("sum", );
+////        jsonObjectTopLevel.put("maxDayCategory", );
+//
+//        return jsonObjectTopLevel.toJSONString();
+//    }
+
+
 
 
 

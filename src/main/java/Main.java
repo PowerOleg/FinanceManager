@@ -9,7 +9,7 @@ public class Main {
     public static void main(String[] args) {
         File productDatabase = new File("categories.tsv");
         //используется принцип декоратора для добавления функциональности классу ServerLogic.
-        Thread thread1 = new Thread(new ServerResponseApp(new ServerLogicWithSaving(productDatabase, new ServerLogic(productDatabase))));
+        Thread thread1 = new Thread(new ServerResponseApp(new ServerLogicWithDates(productDatabase, new ServerLogic(productDatabase))));
         thread1.start();
     }
 }

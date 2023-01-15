@@ -19,7 +19,7 @@ public class ClientApp {
             JSONObject jsonObject1 = new JSONObject();
             jsonObject1.put("title", "тапки");
             jsonObject1.put("date", "2023.01.14");
-            jsonObject1.put("sum", "100");
+            jsonObject1.put("sum", "200");
 
             out.println(jsonObject1.toJSONString());
             String serverResponse2 = in.readLine();

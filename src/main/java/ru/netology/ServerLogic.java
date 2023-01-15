@@ -51,7 +51,7 @@ public class ServerLogic implements Serializable {
                 return;
             }
         }
-        mapMaxCategories.put(category, sum);
+        map.put(category, sum);
     }
 
     public String chooseMaxCategory(Map<String, Integer> map) {
@@ -87,7 +87,8 @@ public class ServerLogic implements Serializable {
 
 //обновляем статистику по категориям и накопленным суммам. Определяем максимальную категорию
         String category = checkProductCategory(productPurchase1);
-        updateMapOfMaxCategories(this.mapMaxCategories, category, productPurchase1.getSum());
+        updateMapOfMaxCategories(mapMaxCategories, category, productPurchase1.getSum());    //обновляет не тот map, нужно который у ребенка
+        System.out.println("8 map after updating"+mapMaxCategories);                        //d
         String maxCategory = chooseMaxCategory(this.mapMaxCategories);
 //формирование json ответа и отправка
         String response = makeResponse(maxCategory, mapMaxCategories.get(maxCategory));
